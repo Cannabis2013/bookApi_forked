@@ -1,7 +1,8 @@
-package com.example.googlebooksapi.services;
+package com.example.googlebooksapi.services.openai;
 
 import com.example.googlebooksapi.dtos.openai.OpenAiDavinciPrompt;
 import com.example.googlebooksapi.services.http.HttpOpenAiPost;
+import com.example.googlebooksapi.services.openai.BookApiPromptMessages;
 
 public class OpenAICompletePrompt {
     private final HttpOpenAiPost _httpFetch;
@@ -15,7 +16,8 @@ public class OpenAICompletePrompt {
 
     public <T> T prompt(){
         var prompt = _bookPromptMessages.summary("Fateful Triangle","Noam Chomsky", 150);
-        var response = _httpFetch.fetch(Uri, OpenAiDavinciPrompt.class,prompt,null);
+        var response = _httpFetch.fetch(Uri, OpenAiDavinciPrompt.class,prompt,Object.class);
+
         return null;
     }
 }

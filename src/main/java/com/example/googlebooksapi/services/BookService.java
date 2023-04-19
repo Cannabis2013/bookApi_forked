@@ -15,7 +15,6 @@ public class BookService {
         return callGoogleBooksApi(search).block().getItems();
     }
 
-
     private Mono<GoogleBooksAPIResponse> callGoogleBooksApi(String query) {
         Mono<GoogleBooksAPIResponse> response = WebClient.create()
                 .get()

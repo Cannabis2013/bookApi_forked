@@ -1,4 +1,4 @@
-package com.example.googlebooksapi.services;
+package com.example.googlebooksapi.services.openai;
 
 import com.example.googlebooksapi.dtos.openai.OpenAiDavinciPrompt;
 import org.springframework.stereotype.Service;
