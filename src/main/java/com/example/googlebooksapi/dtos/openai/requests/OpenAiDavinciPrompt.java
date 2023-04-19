@@ -1,4 +1,4 @@
-package com.example.googlebooksapi.dtos.openai;
+package com.example.googlebooksapi.dtos.openai.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

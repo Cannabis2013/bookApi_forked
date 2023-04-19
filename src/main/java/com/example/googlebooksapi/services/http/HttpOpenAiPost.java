@@ -2,6 +2,7 @@ package com.example.googlebooksapi.services.http;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -18,8 +19,8 @@ public class HttpOpenAiPost {
         Mono<T> response = WebClient.create()
                 .post()
                 .uri(uri)
-                .bodyValue(HttpResponse.BodyHandlers.ofString())
                 .header("Authorization",authHeaderValue())
+                .body(Mono.just(requestData), requestDescriptor)
                 .retrieve()
                 .bodyToMono(responseDescriptor);
         return response;

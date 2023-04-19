@@ -15,6 +15,21 @@ public class BookService {
         return callGoogleBooksApi(search).block().getItems();
     }
 
+    public BookResponse firstBookBySearch(String search) {
+        return callGoogleBooksApi(search).block().getItems().stream().findFirst().orElse(null);
+    }
+
+    public String bookDescription(String keyword){
+        var response = callGoogleBooksApi(keyword).block();
+        BookResponse book;
+        try {
+            book = response.getItems().stream().findFirst().orElseThrow(Exception::new);
+        } catch (Exception e){
+            return null;
+        }
+        return book.getVolumeInfo().getDescription();
+    }
+
     private Mono<GoogleBooksAPIResponse> callGoogleBooksApi(String query) {
         Mono<GoogleBooksAPIResponse> response = WebClient.create()
                 .get()

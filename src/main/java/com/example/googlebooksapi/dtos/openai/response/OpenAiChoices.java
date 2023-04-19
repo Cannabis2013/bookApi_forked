@@ -1,4 +1,4 @@
-package com.example.googlebooksapi.dtos.openai;
+package com.example.googlebooksapi.dtos.openai.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,5 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OpenAiChoices {
-
     private String text;
 }

@@ -18,7 +18,7 @@ public class BookResponse {
     @Getter
     @Setter
     @NoArgsConstructor
-    private static class BookVolumeInfo {
+    public static class BookVolumeInfo {
         private String title;
         private ArrayList<String> authors = new ArrayList<>();
         private String publisher;
