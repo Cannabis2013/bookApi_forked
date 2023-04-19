@@ -1,7 +1,7 @@
-package com.example.googlebooksapi.services;
+package com.example.googlebooksapi.services.googleBooks;
 
-import com.example.googlebooksapi.dtos.GoogleBooksAPIResponse;
-import com.example.googlebooksapi.dtos.BookResponse;
+import com.example.googlebooksapi.dtos.googleBooks.response.GoogleBooksAPIResponse;
+import com.example.googlebooksapi.dtos.googleBooks.response.BookResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;

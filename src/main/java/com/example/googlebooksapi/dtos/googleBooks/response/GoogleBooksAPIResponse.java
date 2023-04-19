@@ -1,4 +1,4 @@
-package com.example.googlebooksapi.dtos;
+package com.example.googlebooksapi.dtos.googleBooks.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

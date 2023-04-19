@@ -1,7 +1,7 @@
 package com.example.googlebooksapi.api;
 
-import com.example.googlebooksapi.dtos.BookResponse;
-import com.example.googlebooksapi.services.BookService;
+import com.example.googlebooksapi.dtos.googleBooks.response.BookResponse;
+import com.example.googlebooksapi.services.googleBooks.BookService;
 import com.example.googlebooksapi.services.openai.OpenAiBookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

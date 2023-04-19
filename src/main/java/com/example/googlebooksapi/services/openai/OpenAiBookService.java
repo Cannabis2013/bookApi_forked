@@ -1,11 +1,9 @@
 package com.example.googlebooksapi.services.openai;
 
-import com.example.googlebooksapi.dtos.openai.response.OpenAiChoices;
 import com.example.googlebooksapi.dtos.openai.response.OpenAiResponse;
 import com.example.googlebooksapi.dtos.openai.requests.OpenAiDavinciPrompt;
-import com.example.googlebooksapi.services.http.HttpOpenAiPost;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,8 +11,9 @@ import java.util.Scanner;
 @Service
 public class OpenAiBookService {
     private final HttpOpenAiPost _httpFetch;
-    private final String Uri = "https://api.openai.com/v1/completions";
     private final BookApiPromptMessages _bookPromptMessages;
+    @Value("${OpenAiToken}")
+    private String apiToken;
 
     public OpenAiBookService(HttpOpenAiPost httpFetch, BookApiPromptMessages bookPromptMessages) {
         _httpFetch = httpFetch;
@@ -23,15 +22,16 @@ public class OpenAiBookService {
 
     public List<String> recommendedBooks(String description){
         var prompt = _bookPromptMessages.similarBooks(description, 150);
-        var response = _httpFetch.fetch(Uri, OpenAiDavinciPrompt.class,prompt,OpenAiResponse.class);
-        var content = response.block();
-        if(content == null)
-            return null;
+        String uri = "https://api.openai.com/v1/completions";
+        var content = _httpFetch.fetch(uri, OpenAiDavinciPrompt.class,prompt,OpenAiResponse.class,apiToken);
+        var text = getText(content);
+        return separate(text);
+    }
+
+    private String getText(OpenAiResponse content){
         var choices = content.getChoices();
         var first = choices.stream().findFirst().orElse(null);
-        if(first == null)
-            return null;
-        return separate(first.getText());
+        return first != null ? first.getText() : null;
     }
 
     private List<String> separate(String src){
