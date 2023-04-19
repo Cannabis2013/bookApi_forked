@@ -12,7 +12,7 @@ public class BookApiPromptMessages {
         return new OpenAiDavinciPrompt(length,message);
     }
 
-    public OpenAiDavinciPrompt similarBooks(String description, int length){
+    public OpenAiDavinciPrompt similarBooks(String description, int maxResults){
         var messages = String.format("""
                 Please provide a list of books which description is similar to the following description:
                 
@@ -23,7 +23,7 @@ public class BookApiPromptMessages {
                 An example of format:
                 
                     1. Vesten mod vesten by Rune Lykkeberg;2. Eliternes triumf by lars Olsen;
-                """,description,length);
-        return new OpenAiDavinciPrompt(length,messages);
+                """,description,maxResults);
+        return new OpenAiDavinciPrompt(maxResults,messages);
     }
 }

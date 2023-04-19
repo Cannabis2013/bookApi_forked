@@ -7,10 +7,10 @@ import reactor.core.publisher.Mono;
 @Service
 public class HttpRequest implements IHttpRequest {
     @Override
-    public <T,U> T postRequest(String uri, Class<U> requestDescriptor,
-                               U requestData,
-                               Class<T> responseDescriptor,
-                               String apiKey){
+    public <TResponse, TRequest> TResponse postRequest(String uri, Class<TRequest> requestDescriptor,
+                                                       TRequest requestData,
+                                                       Class<TResponse> responseDescriptor,
+                                                       String apiKey){
         var response = WebClient.create()
                 .post()
                 .uri(uri)

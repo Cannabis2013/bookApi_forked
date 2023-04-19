@@ -33,6 +33,12 @@ public class OpenAiBookService {
     }
 
     public List<String> recommendedBooks(String description){
+        if(description == null)
+            return new ArrayList<>(){
+                {
+                    add("Description is not present");
+                }
+            };
         var prompt = _bookPromptMessages.similarBooks(description, 150);
         var content = _httpFetch.postRequest(Uri, _promptDescriptor,prompt,_responseDescriptor,apiToken);
         var result = getText(content);
