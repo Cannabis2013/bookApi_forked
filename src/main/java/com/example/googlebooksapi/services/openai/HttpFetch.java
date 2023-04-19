@@ -1,19 +1,16 @@
 package com.example.googlebooksapi.services.openai;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.example.googlebooksapi.dtos.googleBooks.response.GoogleBooksAPIResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.net.http.HttpResponse;
-
 @Service
-public class HttpOpenAiPost {
-    public <T,U> T fetch(String uri, Class<U> requestDescriptor,
-                         U requestData,
-                         Class<T> responseDescriptor,
-                         String apiKey){
+public class HttpFetch {
+    public <T,U> T postRequest(String uri, Class<U> requestDescriptor,
+                               U requestData,
+                               Class<T> responseDescriptor,
+                               String apiKey){
         var response = WebClient.create()
                 .post()
                 .uri(uri)
@@ -21,6 +18,15 @@ public class HttpOpenAiPost {
                 .body(Mono.just(requestData), requestDescriptor)
                 .retrieve()
                 .bodyToMono(responseDescriptor);
+        return response.block();
+    }
+
+    public <T> T getRequest(String uri,Class<T> descriptor){
+        var response = WebClient.create()
+                .get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(descriptor);
         return response.block();
     }
 

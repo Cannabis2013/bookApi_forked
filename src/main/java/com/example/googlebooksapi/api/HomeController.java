@@ -30,15 +30,22 @@ public class HomeController {
         this.openApiBookService = openApiBookService;
     }
 
-    @GetMapping("/search")
-    public ArrayList<BookResponse> search(@RequestParam String query) {
-        return bookService.booksBySearch(query);
+    @GetMapping("/searchByKeyword")
+    public ArrayList<BookResponse> searchByKeyword(@RequestParam String query) {
+        return bookService.booksByKeyword(query);
+    }
+
+    @GetMapping("searchSpecific")
+    public BookResponse searchSpecific(String author, String title){
+        var book = bookService.book(author,title);
+        if(book == null)
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
+        return book;
     }
 
     @GetMapping("/recommendation")
-    public List<String> getRecommendation(String keyword) {
-        var book = bookService.firstBookBySearch(keyword);
-        var description = book.getVolumeInfo().getDescription();
+    public List<String> getRecommendation(@RequestParam String author, String title) {
+        var description = bookService.bookDescription(author,title);
         var result = openApiBookService.recommendedBooks(description);
         if(result == null)
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -16,7 +16,11 @@ public class BookApiPromptMessages {
                 
                 '%s'
                 
-                Each element in the list should be separated by a semicolon and should be of no more than 5 elements
+                Each element in the list should be separated by a semicolon and should be of no more than 5 elements.
+                
+                An example of format:
+                
+                    1. Vesten mod vesten by Rune Lykkeberg;2. Eliternes triumf by lars Olsen;
                 """,description,length);
         return new OpenAiDavinciPrompt(length,messages);
     }
