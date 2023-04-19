@@ -1,7 +1,8 @@
 package com.example.googlebooksapi.services.openai;
 
-import com.example.googlebooksapi.dtos.openai.response.OpenAiResponse;
 import com.example.googlebooksapi.dtos.openai.requests.OpenAiDavinciPrompt;
+import com.example.googlebooksapi.dtos.openai.response.OpenAiResponse;
+import com.example.googlebooksapi.services.http.IHttpRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -10,23 +11,30 @@ import java.util.Scanner;
 
 @Service
 public class OpenAiBookService {
-    private final HttpFetch _httpFetch;
+    private final IHttpRequest _httpFetch;
     private final BookApiPromptMessages _bookPromptMessages;
     @Value("${OpenAiToken}")
     private String apiToken;
 
+    private final Class<OpenAiDavinciPrompt> _promptDescriptor = OpenAiDavinciPrompt.class;
+    private final Class<OpenAiResponse> _responseDescriptor = OpenAiResponse.class;
+
     private final String Uri = "https://api.openai.com/v1/completions";
 
-    public OpenAiBookService(HttpFetch httpFetch, BookApiPromptMessages bookPromptMessages) {
+    public OpenAiBookService(IHttpRequest httpFetch, BookApiPromptMessages bookPromptMessages) {
         _httpFetch = httpFetch;
         _bookPromptMessages = bookPromptMessages;
     }
 
+    public String bookSummary(String author, String title, int length){
+        var prompt = _bookPromptMessages.summary(author,title,length);
+        var content = _httpFetch.postRequest(Uri,_promptDescriptor,prompt,_responseDescriptor,apiToken);
+        return getText(content);
+    }
+
     public List<String> recommendedBooks(String description){
-        if(description == null)
-            return null;
         var prompt = _bookPromptMessages.similarBooks(description, 150);
-        var content = _httpFetch.postRequest(Uri, OpenAiDavinciPrompt.class,prompt,OpenAiResponse.class,apiToken);
+        var content = _httpFetch.postRequest(Uri, _promptDescriptor,prompt,_responseDescriptor,apiToken);
         var result = getText(content);
         return formatResult(result);
     }

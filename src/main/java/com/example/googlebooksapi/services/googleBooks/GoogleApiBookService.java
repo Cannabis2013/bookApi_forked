@@ -2,16 +2,16 @@ package com.example.googlebooksapi.services.googleBooks;
 
 import com.example.googlebooksapi.dtos.googleBooks.response.BookResponse;
 import com.example.googlebooksapi.dtos.googleBooks.response.GoogleBooksAPIResponse;
-import com.example.googlebooksapi.services.openai.HttpFetch;
+import com.example.googlebooksapi.services.http.IHttpRequest;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class BookService {
-    private final HttpFetch _http;
+public class GoogleApiBookService {
+    private final IHttpRequest _http;
     private final GoogleBooksApiInfo _googleBooksApiInfo;
 
-    public BookService(HttpFetch http, GoogleBooksApiInfo googleBooksApiInfo) {
+    public GoogleApiBookService(IHttpRequest http, GoogleBooksApiInfo googleBooksApiInfo) {
         _http = http;
         _googleBooksApiInfo = googleBooksApiInfo;
     }

@@ -1,7 +1,7 @@
 package com.example.googlebooksapi.api;
 
 import com.example.googlebooksapi.dtos.googleBooks.response.BookResponse;
-import com.example.googlebooksapi.services.googleBooks.BookService;
+import com.example.googlebooksapi.services.googleBooks.GoogleApiBookService;
 import com.example.googlebooksapi.services.openai.OpenAiBookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping
 public class HomeController {
 
-    private BookService bookService;
+    private GoogleApiBookService bookService;
     private OpenAiBookService openApiBookService;
 
     @GetMapping("/")
@@ -25,7 +25,7 @@ public class HomeController {
         return new RedirectView("/swagger-ui/index.html");
     }
 
-    public HomeController(BookService bookService, OpenAiBookService openApiBookService) {
+    public HomeController(GoogleApiBookService bookService, OpenAiBookService openApiBookService) {
         this.bookService = bookService;
         this.openApiBookService = openApiBookService;
     }

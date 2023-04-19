@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BookApiPromptMessages {
-    public OpenAiDavinciPrompt summary(String title, String author, int length){
-        var message = String.format("Give me a summary of '%s' by '%s' in no more than %d words",title,author,length);
+    public OpenAiDavinciPrompt summary(String author, String title, int length){
+        var message = String.format("""
+                Give me a summary of the book '%s' by '%s' in no more than %d words
+                """,title,author,length);
         return new OpenAiDavinciPrompt(length,message);
     }
 

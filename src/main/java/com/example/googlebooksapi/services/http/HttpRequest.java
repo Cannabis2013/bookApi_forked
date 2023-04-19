@@ -1,12 +1,12 @@
-package com.example.googlebooksapi.services.openai;
+package com.example.googlebooksapi.services.http;
 
-import com.example.googlebooksapi.dtos.googleBooks.response.GoogleBooksAPIResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-public class HttpFetch {
+public class HttpRequest implements IHttpRequest {
+    @Override
     public <T,U> T postRequest(String uri, Class<U> requestDescriptor,
                                U requestData,
                                Class<T> responseDescriptor,
@@ -21,7 +21,8 @@ public class HttpFetch {
         return response.block();
     }
 
-    public <T> T getRequest(String uri,Class<T> descriptor){
+    @Override
+    public <T> T getRequest(String uri, Class<T> descriptor){
         var response = WebClient.create()
                 .get()
                 .uri(uri)
