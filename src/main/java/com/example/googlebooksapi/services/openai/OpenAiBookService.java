@@ -12,7 +12,7 @@ import java.util.Scanner;
 @Service
 public class OpenAiBookService {
     private final IHttpRequest _httpFetch;
-    private final BookApiPromptMessages _bookPromptMessages;
+    private final BookApiPrompts _bookPromptMessages;
     @Value("${OpenAiToken}")
     private String apiToken;
 
@@ -21,7 +21,7 @@ public class OpenAiBookService {
 
     private final String Uri = "https://api.openai.com/v1/completions";
 
-    public OpenAiBookService(IHttpRequest httpFetch, BookApiPromptMessages bookPromptMessages) {
+    public OpenAiBookService(IHttpRequest httpFetch, BookApiPrompts bookPromptMessages) {
         _httpFetch = httpFetch;
         _bookPromptMessages = bookPromptMessages;
     }
@@ -32,14 +32,21 @@ public class OpenAiBookService {
         return getText(content);
     }
 
-    public List<String> recommendedBooks(String description){
+    public List<String> recommendedBooks(String description, int maxResults){
         if(description == null)
             return new ArrayList<>(){
                 {
                     add("Description is not present");
                 }
             };
-        var prompt = _bookPromptMessages.similarBooks(description, 150);
+        var prompt = _bookPromptMessages.similarBooks(description, maxResults);
+        var content = _httpFetch.postRequest(Uri, _promptDescriptor,prompt,_responseDescriptor,apiToken);
+        var result = getText(content);
+        return formatResult(result);
+    }
+
+    public List<String> recommendedBooks(String author, String title, int maxResults){
+        var prompt = _bookPromptMessages.similarBooks(author,title, maxResults);
         var content = _httpFetch.postRequest(Uri, _promptDescriptor,prompt,_responseDescriptor,apiToken);
         var result = getText(content);
         return formatResult(result);

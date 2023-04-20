@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class HttpRequest implements IHttpRequest {
     @Override
-    public <TResponse, TRequest> TResponse postRequest(String uri, Class<TRequest> requestDescriptor,
+    public <TResponse,TRequest> TResponse postRequest(String uri, Class<TRequest> requestDescriptor,
                                                        TRequest requestData,
                                                        Class<TResponse> responseDescriptor,
                                                        String apiKey){

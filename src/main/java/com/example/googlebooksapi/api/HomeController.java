@@ -43,10 +43,26 @@ public class HomeController {
         return book;
     }
 
-    @GetMapping("/recommendation")
-    public List<String> getRecommendation(@RequestParam String author, String title) {
+    @GetMapping("/recommendationByDescription")
+    public List<String> getRecommendation(@RequestParam String author, String title, int maxResults) {
         var description = bookService.bookDescription(author,title);
-        var result = openApiBookService.recommendedBooks(description);
+        var result = openApiBookService.recommendedBooks(description,maxResults);
+        if(result == null)
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
+        return result;
+    }
+
+    @GetMapping("/recommendationByBook")
+    public List<String> getRecommendationByBook(String author, String title, int maxResults) {
+        var result = openApiBookService.recommendedBooks(author,title,maxResults);
+        if(result == null)
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
+        return result;
+    }
+
+    @GetMapping("/summary")
+    public String getSummaryByBook(String author, String title, int length){
+        var result = openApiBookService.bookSummary(author,title,length);
         if(result == null)
             throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
         return result;
